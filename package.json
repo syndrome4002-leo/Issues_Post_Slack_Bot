@@ -1,0 +1,13 @@
+{
+  "name": "slackbot",
+  "version": "1.0.0",
+  "description": "Polls a GitHub repo for new issues and posts them to a Slack channel",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@slack/web-api": "^7.0.0",
+    "dotenv": "^16.4.5"
+  }
+}
