@@ -87,6 +87,9 @@ async function fetchIssues(repo) {
 
 const MAINTAINER_ASSOCIATIONS = new Set(['OWNER', 'MEMBER', 'COLLABORATOR']);
 
+// Repos where every issue is posted, regardless of who opened it.
+const POST_ALL_REPOS = new Set(['openclaw/openclaw']);
+
 function authorBadge(association) {
   if (MAINTAINER_ASSOCIATIONS.has(association)) {
     return `:shield: maintainer (${association.toLowerCase()})`;
@@ -141,10 +144,12 @@ async function checkRepo(repo) {
     return;
   }
 
-  for (const issue of newIssues) {
-    const isMaintainer = MAINTAINER_ASSOCIATIONS.has(issue.author_association);
+  const postAll = POST_ALL_REPOS.has(repo);
 
-    if (isMaintainer) {
+  for (const issue of newIssues) {
+    const shouldPost = postAll || MAINTAINER_ASSOCIATIONS.has(issue.author_association);
+
+    if (shouldPost) {
       try {
         await postToSlack(formatIssue(repo, issue));
         console.log(`[${repo}] Notified: #${issue.number} ${issue.title}`);
