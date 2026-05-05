@@ -142,16 +142,24 @@ async function checkRepo(repo) {
   }
 
   for (const issue of newIssues) {
-    try {
-      await postToSlack(formatIssue(repo, issue));
-      console.log(`[${repo}] Notified: #${issue.number} ${issue.title}`);
-      repoState.lastIssueNumber = issue.number;
-      state[repo] = repoState;
-      saveState(state);
-    } catch (err) {
-      console.error(`[${repo}] Slack post failed for #${issue.number}:`, err.data || err.message);
-      break;
+    const isMaintainer = MAINTAINER_ASSOCIATIONS.has(issue.author_association);
+
+    if (isMaintainer) {
+      try {
+        await postToSlack(formatIssue(repo, issue));
+        console.log(`[${repo}] Notified: #${issue.number} ${issue.title}`);
+      } catch (err) {
+        console.error(`[${repo}] Slack post failed for #${issue.number}:`, err.data || err.message);
+        // Don't advance past a failed post — retry on next tick.
+        break;
+      }
+    } else {
+      console.log(`[${repo}] Skipped #${issue.number} (author_association=${issue.author_association})`);
     }
+
+    repoState.lastIssueNumber = issue.number;
+    state[repo] = repoState;
+    saveState(state);
   }
 }
 
