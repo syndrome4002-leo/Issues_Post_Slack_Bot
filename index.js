@@ -12,7 +12,8 @@ const DEFAULT_REPOS = [
   'entrius/allways',
   'entrius/allways-ui',
   'entrius/gittensor-ui',
-  'entrius/gittensor'
+  'entrius/gittensor',
+  'entrius/das-github-mirror'
 ];
 
 // Accepts "owner/repo", a github.com URL, optionally with .git suffix.
