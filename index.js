@@ -9,21 +9,10 @@ const githubToken = process.env.GITHUB_TOKEN;
 const repoDelayMs = Number(process.env.REPO_DELAY_SECONDS || 20) * 1000;
 
 const DEFAULT_REPOS = [
-  'OpenHands/OpenHands',
-  'virattt/dexter',
-  'llmsresearch/paperbanana',
-  'ClickHouse/ClickHouse',
   'entrius/allways',
-  'we-promise/sure',
-  'infiniflow/ragflow',
-  'penpot/penpot',
-  'run-llama/llama_index',
-  'Unstructured-IO/unstructured',
-  'AffineFoundation/affinetes',
+  'entrius/allways-ui',
   'entrius/gittensor-ui',
-  'eigent-ai/eigent',
-  'openclaw/openclaw',
-  'entrius/gittensor',
+  'entrius/gittensor'
 ];
 
 // Accepts "owner/repo", a github.com URL, optionally with .git suffix.
